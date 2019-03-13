@@ -26,6 +26,12 @@ namespace OrderManagement
             Orders = GenericDB.GenericRead <Orders>("Orders");
             OrderDetails = GenericDB.GenericRead<OrderDetails>("[Order Details]");
             ordersDataGridView.DataSource = Orders;
+            
+        }
+
+        private void ordersDataGridView_SelectionChanged(object sender, EventArgs e)
+        {
+            //int orderID = (int)ordersDataGridView.SelectedRows[0].;
         }
     }
 }
