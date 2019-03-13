@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2046
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab 4 Haotian Zhang CPRG200", "Lab 4 Haotian Zhang CPRG200\Lab 4 Haotian Zhang CPRG200.csproj", "{3D02642A-8B05-4A75-A754-E7CBEFB14507}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityClass", "Lab 4 Haotian Zhang CPRG200\EntityClass.csproj", "{3D02642A-8B05-4A75-A754-E7CBEFB14507}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBClass", "DBClass\DBClass.csproj", "{53D2F3F6-02AF-4017-9ACE-97EB3C0802DF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderManagementForm", "OrderManagement\OrderManagementForm.csproj", "{7FCB8A2D-AD98-4210-A80A-906BC89559EF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{3D02642A-8B05-4A75-A754-E7CBEFB14507}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3D02642A-8B05-4A75-A754-E7CBEFB14507}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3D02642A-8B05-4A75-A754-E7CBEFB14507}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53D2F3F6-02AF-4017-9ACE-97EB3C0802DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53D2F3F6-02AF-4017-9ACE-97EB3C0802DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53D2F3F6-02AF-4017-9ACE-97EB3C0802DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53D2F3F6-02AF-4017-9ACE-97EB3C0802DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FCB8A2D-AD98-4210-A80A-906BC89559EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FCB8A2D-AD98-4210-A80A-906BC89559EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FCB8A2D-AD98-4210-A80A-906BC89559EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FCB8A2D-AD98-4210-A80A-906BC89559EF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
