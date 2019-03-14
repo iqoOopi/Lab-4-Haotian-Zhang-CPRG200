@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EntityClass
 {
-    public class Orders:ParentClass
+    public class Orders
     {
         public Orders(int orderID, string customerID, DateTime? orderDate, DateTime? requiredDate, DateTime? shippedDate)
         {
@@ -24,12 +24,5 @@ namespace EntityClass
         public DateTime? OrderDate { get; set; }
         public DateTime? RequiredDate { get; set; }
         public DateTime? ShippedDate { get; set; }
-
-
-
-        public override string KeyFieldName()
-        {
-            return "OrderID";
-        }
     }
 }

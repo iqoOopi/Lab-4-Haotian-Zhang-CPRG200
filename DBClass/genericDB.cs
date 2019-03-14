@@ -9,6 +9,12 @@ using System.Threading.Tasks;
 
 namespace DBClass
 {
+    /// <summary>
+    /// This the generic read and update method I created to use in WorkShop4,
+    /// This can take care any object from any DB
+    /// Sql command is just string, so the key idea is to use stringbuilder to build the
+    /// required sql command during the run time.
+    /// </summary>
     public static class GenericDB
     {
         /// <summary>
@@ -17,17 +23,27 @@ namespace DBClass
         /// <typeparam name="T"> Generic Type, could be Products, packages etc.</typeparam>
         /// <param name="tableName">Corresponding Table Name in DB</param>
         /// <returns>A list of requried entity classes for the corresponding DB </returns>
-        public static List<T> GenericRead<T>(string tableName) where T : ParentClass //need inherit from ParentClass so that I can call the extra method
+        public static List<T> GenericRead<T>(string tableName) //need inherit from ParentClass so that I can call the extra method
         {
             List<T> classData = new List<T>();//List to hold result
 
             T obj = Activator.CreateInstance<T>();//create an instant of Class T, something like: Products obj=new Products();
                                                   //can't use T obj = new T()
+
+            //prepare the Sql Syntax for the query
+            StringBuilder FieldToSqlSyntax = new StringBuilder();
+            PropertyInfo[] properties = obj.GetType().GetProperties();
+            foreach (PropertyInfo property in properties)
+            {
+                FieldToSqlSyntax.Append(property.Name).Append(",");
+            }
+            FieldToSqlSyntax.Length--;//remove the last ","
+
             using (SqlConnection connection = NorthwindDB.GetConnection())//using method could auto close resources, so the connection got closed automatically
             {
                 //The select Sql Syntax
-                string selectStatement = "SELECT " + obj.FieldToSqlSyntax() + " " +
-                                         "FROM " + tableName + " " + "ORDER BY " + obj.KeyFieldName();
+                string selectStatement = "SELECT " + FieldToSqlSyntax + " " +
+                                         "FROM " + tableName + " " + "ORDER BY 1";
                 using (SqlCommand selectCommand = new SqlCommand(selectStatement, connection))//auto close Sqlcommand
                 {
                         connection.Open();
@@ -36,10 +52,10 @@ namespace DBClass
                             while (dr.Read())
                             {
                                 T tempObj = Activator.CreateInstance<T>();//temp entity class
-                                PropertyInfo[] properties = tempObj.GetType().GetProperties();//get all the field of this entity class
+                                PropertyInfo[] tempProperties = tempObj.GetType().GetProperties();//get all the field of this entity class
                                                                                               //if T is Products Class,
                                                                                               //properties will looks like {ProductID, prodName}
-                                foreach (PropertyInfo property in properties)
+                                foreach (PropertyInfo property in tempProperties)
                                 {                     
                                     if(dr[property.Name] != DBNull.Value)
                                     {
@@ -67,14 +83,35 @@ namespace DBClass
         }
 
 
-        public static int GenericUpdate<T>(string tableName,T oldObj, T newObj) where T : ParentClass
+        public static int GenericUpdate<T>(string tableName,T oldObj, T newObj)
         {
             int count=0;
-            //The select Sql Syntax
             using (SqlConnection connection = NorthwindDB.GetConnection())//using method could auto close resources, so the connection got closed automatically
             {
-                string selectStatement = "UPDATE " + tableName + " SET " + oldObj.FieldToSqlSet() +
-                                     " WHERE " + oldObj.FieldToSqlWhere();
+                //Prepare the Update Sql Syntax
+                StringBuilder FieldToSqlSet = new StringBuilder();
+                PropertyInfo[] properties = oldObj.GetType().GetProperties();
+                properties = properties.Skip(1).ToArray();//skip the primary key, as we don't need to update PK
+                foreach (PropertyInfo property in properties)
+                {
+                    FieldToSqlSet.Append(property.Name).Append("=@New").Append(property.Name).Append(",");
+                }
+                FieldToSqlSet.Length--;//remove the last ","
+
+                //prepare the sql syntax for concurrency check
+                StringBuilder FieldToSqlWhere = new StringBuilder();
+                properties = oldObj.GetType().GetProperties();
+                foreach (PropertyInfo property in properties)
+                {
+                    FieldToSqlWhere.Append("(" + property.Name + "=@Old" + property.Name + " OR ")
+                   .Append(property.Name + " IS NULL AND @Old" + property.Name + " IS NULL)")
+                   .Append(" AND ");
+                }     
+                FieldToSqlWhere.Length = FieldToSqlWhere.Length - 5;//remove the last " AND "
+
+                string selectStatement = "UPDATE " + tableName + " SET " + FieldToSqlSet +
+                                     " WHERE " + FieldToSqlWhere;
+
                 using (SqlCommand cmd = new SqlCommand(selectStatement, connection))//auto close Sqlcommand
                 {
                     
@@ -82,14 +119,10 @@ namespace DBClass
                     PropertyInfo[] newObjProperties = newObj.GetType().GetProperties();//get all the field of this entity class
                                                                                        //if T is Products Class,
                                                                                        //properties will looks like {ProductID, prodName}
-                    newObjProperties = newObjProperties.Skip(4).ToArray();//skip the primary key
+                    //bound @new 
+                    newObjProperties = newObjProperties.Skip(1).ToArray();//skip the primary key, as we don't need to update
                     foreach (PropertyInfo property in newObjProperties)
                     {
-
-                        //if (newSample.Description == null)
-                        //    cmd.Parameters.AddWithValue("@NewDescription", DBNull.Value);
-                        //else
-                        //    cmd.Parameters.AddWithValue("@NewDescription", newSample.Description);
                         if (property.GetValue(newObj) == null)
                         {
                             cmd.Parameters.AddWithValue("@New" + property.Name, DBNull.Value);
@@ -100,16 +133,12 @@ namespace DBClass
                         }
                     }
 
+                    //Bound @old
                     PropertyInfo[] oldObjProperties = oldObj.GetType().GetProperties();//get all the field of this entity class
                                                                                        //if T is Products Class,
                                                                                        //properties will looks like {ProductID, prodName}
                     foreach (PropertyInfo property in oldObjProperties)
                     {
-
-                        //if (newSample.Description == null)
-                        //    cmd.Parameters.AddWithValue("@NewDescription", DBNull.Value);
-                        //else
-                        //    cmd.Parameters.AddWithValue("@NewDescription", newSample.Description);
                         if (property.GetValue(oldObj) == null)
                         {
                             cmd.Parameters.AddWithValue("@Old" + property.Name, DBNull.Value);
