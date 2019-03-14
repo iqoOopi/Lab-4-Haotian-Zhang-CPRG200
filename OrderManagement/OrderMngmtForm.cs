@@ -14,11 +14,11 @@ namespace OrderManagement
 {
     public partial class OrderMngmtForm : Form
     {
-        List<Orders> Orders;
-        List<OrderDetails> OrderDetails;
-        List<OrderDetails> RelatedOrderDetails;
-        Orders selectedOrder;
-        int selectedRowNumber;
+        List<Orders> Orders;//list of all Orders
+        List<OrderDetails> OrderDetails;//List of all orderDetails
+        List<OrderDetails> RelatedOrderDetails;//List of all orderDetails related to the selected order
+        Orders selectedOrder;//selected order
+        //int selectedRowNumber;
         public OrderMngmtForm()
         {
             InitializeComponent();
@@ -26,20 +26,19 @@ namespace OrderManagement
 
         private void OrderMngmt_Load(object sender, EventArgs e)
         {
-            Orders = GenericDB.GenericRead <Orders>("Orders");
-            OrderDetails = GenericDB.GenericRead<OrderDetails>("[Order Details]");
-            ordersDataGridView.DataSource = Orders;
+            //load Data from DB
+            LoadData();
             
         }
 
         private void ordersDataGridView_SelectionChanged(object sender, EventArgs e)
         {
-            if(ordersDataGridView.SelectedRows.Count>0)
+            if(ordersDataGridView.SelectedRows.Count>0)//check are there any selection made
             {
                 RelatedOrderDetails = new List<OrderDetails>();
-                selectedRowNumber = ordersDataGridView.SelectedRows[0].Index;
+                int selectedRowNumber = ordersDataGridView.SelectedRows[0].Index;//get index num for array
                 selectedOrder = Orders[selectedRowNumber];
-                int orderID = selectedOrder.OrderID;
+                int orderID = selectedOrder.OrderID;//get PK for search relevant in OrderDetails
                 foreach (OrderDetails details in OrderDetails)
                 {
                     if (details.OrderID == orderID)
@@ -106,16 +105,35 @@ namespace OrderManagement
             //Orders oldSelectedOrder = selectedOrder; This is horrible wrong, reference type!
             Orders oldSelectedOrder = new Orders(selectedOrder.OrderID, selectedOrder.CustomerID, selectedOrder.OrderDate, selectedOrder.RequiredDate, selectedOrder.ShippedDate);
             selectedOrder.ShippedDate = newShippedDate;
-            Orders[selectedRowNumber] = selectedOrder;
-            ordersDataGridView.Refresh();
+            //Orders[selectedRowNumber] = selectedOrder;
+            
 
             //commit to DB
-            if (GenericDB.GenericUpdate<Orders>("Orders", oldSelectedOrder, selectedOrder)!=1){
-                MessageBox.Show("Update Failed");
+            try
+            {
+                if (GenericDB.GenericUpdate<Orders>("Orders", oldSelectedOrder, selectedOrder) != 1)
+                {
+                    MessageBox.Show("Data changed while you are editing, Please refresh and try again!");
+                    LoadData();
+                }
+                else
+                {
+                    LoadData();
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
             }
 
-
-
+        }
+        private void LoadData()
+        {
+            //get data from DB and bound it to GridView
+            Orders = GenericDB.GenericRead<Orders>("Orders");
+            OrderDetails = GenericDB.GenericRead<OrderDetails>("[Order Details]");
+            ordersDataGridView.DataSource = Orders;
+            ordersDataGridView.Refresh();
         }
     }
 }
