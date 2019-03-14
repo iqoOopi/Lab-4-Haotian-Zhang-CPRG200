@@ -39,29 +39,34 @@ namespace OrderManagement
                 int selectedRowNumber = ordersDataGridView.SelectedRows[0].Index;//get index num for array
                 selectedOrder = Orders[selectedRowNumber];
                 int orderID = selectedOrder.OrderID;//get PK for search relevant in OrderDetails
+                //Finding related Details
                 foreach (OrderDetails details in OrderDetails)
                 {
                     if (details.OrderID == orderID)
                     {
-                        RelatedOrderDetails.Add(details);
+                        RelatedOrderDetails.Add(details);//add ralted details to list
                     }
                 }
 
             }
+            //bound relatedOrderDetails to DataGridView
             orderDetailsDataGridView.DataSource = RelatedOrderDetails;
             decimal subTotal=0m;
+            //calculate lineTotal for each line,then add lineTotal to subTotal
             foreach (DataGridViewRow row in orderDetailsDataGridView.Rows)
             {
                 decimal unitPrice = (decimal)row.Cells["dgUnitPrice"].Value;
                 decimal discount = (decimal)row.Cells["dgDiscount"].Value;
                 decimal quantity = Convert.ToDecimal(row.Cells["dgQuantity"].Value);
                 decimal lineTotal = unitPrice * (1 - discount) * quantity;
+                //display calculated lineTotal 
                 row.Cells["dgTotal"].Value = lineTotal;
                 subTotal += lineTotal;
             }
             subTotal=Math.Round(subTotal, 2);
             txtBoxSubtotal.Text = "$" + subTotal.ToString();
 
+            //prepare the input area
             btnEditShippedDate.Enabled = true;
             pnlShippedDate.Visible = false;
             mtxtBoxShippedDate.Text = "";
@@ -69,6 +74,7 @@ namespace OrderManagement
 
         private void btnEditShippedDate_Click(object sender, EventArgs e)
         {
+            //show the input area
             pnlShippedDate.Visible = true;
             mtxtBoxShippedDate.Select();
 
@@ -77,10 +83,10 @@ namespace OrderManagement
         private void btnSave_Click(object sender, EventArgs e)
         {
             
-            DateTime newShippedDate;
+            DateTime newShippedDate;//new DateTime about to update
             if (!DateTime.TryParse(mtxtBoxShippedDate.Text, out newShippedDate))
             {
-               
+               //not valid input
                 MessageBox.Show("Invalid Input, please input MM/DD/YYYY");
                 mtxtBoxShippedDate.Text = "";
                 return;
