@@ -66,5 +66,66 @@ namespace DBClass
             return classData;//returen results
         }
 
+
+        public static int GenericUpdate<T>(string tableName,T oldObj, T newObj) where T : ParentClass
+        {
+            int count=0;
+            //The select Sql Syntax
+            using (SqlConnection connection = NorthwindDB.GetConnection())//using method could auto close resources, so the connection got closed automatically
+            {
+                string selectStatement = "UPDATE " + tableName + " SET " + oldObj.FieldToSqlSet() +
+                                     " WHERE " + oldObj.FieldToSqlWhere();
+                using (SqlCommand cmd = new SqlCommand(selectStatement, connection))//auto close Sqlcommand
+                {
+                    
+                   
+                    PropertyInfo[] newObjProperties = newObj.GetType().GetProperties();//get all the field of this entity class
+                                                                                       //if T is Products Class,
+                                                                                       //properties will looks like {ProductID, prodName}
+                    newObjProperties = newObjProperties.Skip(4).ToArray();//skip the primary key
+                    foreach (PropertyInfo property in newObjProperties)
+                    {
+
+                        //if (newSample.Description == null)
+                        //    cmd.Parameters.AddWithValue("@NewDescription", DBNull.Value);
+                        //else
+                        //    cmd.Parameters.AddWithValue("@NewDescription", newSample.Description);
+                        if (property.GetValue(newObj) == null)
+                        {
+                            cmd.Parameters.AddWithValue("@New" + property.Name, DBNull.Value);
+                        }
+                        else
+                        {
+                            cmd.Parameters.AddWithValue("@New" + property.Name, property.GetValue(newObj,null));
+                        }
+                    }
+
+                    PropertyInfo[] oldObjProperties = oldObj.GetType().GetProperties();//get all the field of this entity class
+                                                                                       //if T is Products Class,
+                                                                                       //properties will looks like {ProductID, prodName}
+                    foreach (PropertyInfo property in oldObjProperties)
+                    {
+
+                        //if (newSample.Description == null)
+                        //    cmd.Parameters.AddWithValue("@NewDescription", DBNull.Value);
+                        //else
+                        //    cmd.Parameters.AddWithValue("@NewDescription", newSample.Description);
+                        if (property.GetValue(oldObj) == null)
+                        {
+                            cmd.Parameters.AddWithValue("@Old" + property.Name, DBNull.Value);
+                        }
+                        else
+                        {
+                            cmd.Parameters.AddWithValue("@Old" + property.Name, property.GetValue(oldObj, null));
+                        }
+                    }
+
+                    connection.Open();
+                    count = cmd.ExecuteNonQuery();
+                }
+            }
+            return count;
+        }
+
     }
 }

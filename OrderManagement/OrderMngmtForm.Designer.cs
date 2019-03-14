@@ -32,37 +32,34 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.Label discountLabel;
-            System.Windows.Forms.Label orderIDLabel;
-            System.Windows.Forms.Label productIDLabel;
-            System.Windows.Forms.Label quantityLabel;
-            System.Windows.Forms.Label unitPriceLabel;
-            this.ordersBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.ordersDataGridView = new System.Windows.Forms.DataGridView();
+            this.orderDetailsDataGridView = new System.Windows.Forms.DataGridView();
+            this.dgTotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label1 = new System.Windows.Forms.Label();
+            this.txtBoxSubtotal = new System.Windows.Forms.TextBox();
+            this.btnEditShippedDate = new System.Windows.Forms.Button();
+            this.pnlShippedDate = new System.Windows.Forms.Panel();
+            this.mtxtBoxShippedDate = new System.Windows.Forms.MaskedTextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.btnSave = new System.Windows.Forms.Button();
+            this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgDiscount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgUnitPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgQuantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.orderDetailsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.orderDetailsBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.discountTextBox = new System.Windows.Forms.TextBox();
-            this.orderIDTextBox = new System.Windows.Forms.TextBox();
-            this.productIDTextBox = new System.Windows.Forms.TextBox();
-            this.quantityTextBox = new System.Windows.Forms.TextBox();
-            this.unitPriceTextBox = new System.Windows.Forms.TextBox();
-            discountLabel = new System.Windows.Forms.Label();
-            orderIDLabel = new System.Windows.Forms.Label();
-            productIDLabel = new System.Windows.Forms.Label();
-            quantityLabel = new System.Windows.Forms.Label();
-            unitPriceLabel = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.ordersBindingSource)).BeginInit();
+            this.ordersBindingSource = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.ordersDataGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.orderDetailsDataGridView)).BeginInit();
+            this.pnlShippedDate.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.orderDetailsBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ordersBindingSource)).BeginInit();
             this.SuspendLayout();
-            // 
-            // ordersBindingSource
-            // 
-            this.ordersBindingSource.DataSource = typeof(EntityClass.Orders);
             // 
             // ordersDataGridView
             // 
@@ -77,22 +74,149 @@
             this.ordersDataGridView.DataSource = this.ordersBindingSource;
             this.ordersDataGridView.Dock = System.Windows.Forms.DockStyle.Left;
             this.ordersDataGridView.Location = new System.Drawing.Point(0, 0);
+            this.ordersDataGridView.MultiSelect = false;
             this.ordersDataGridView.Name = "ordersDataGridView";
-            this.ordersDataGridView.Size = new System.Drawing.Size(562, 450);
+            this.ordersDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.ordersDataGridView.Size = new System.Drawing.Size(546, 509);
             this.ordersDataGridView.TabIndex = 1;
             this.ordersDataGridView.SelectionChanged += new System.EventHandler(this.ordersDataGridView_SelectionChanged);
+            // 
+            // orderDetailsDataGridView
+            // 
+            this.orderDetailsDataGridView.AutoGenerateColumns = false;
+            this.orderDetailsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.orderDetailsDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn6,
+            this.dataGridViewTextBoxColumn7,
+            this.dgDiscount,
+            this.dgUnitPrice,
+            this.dgQuantity,
+            this.dgTotal});
+            this.orderDetailsDataGridView.DataSource = this.orderDetailsBindingSource;
+            this.orderDetailsDataGridView.Location = new System.Drawing.Point(552, 0);
+            this.orderDetailsDataGridView.Name = "orderDetailsDataGridView";
+            this.orderDetailsDataGridView.Size = new System.Drawing.Size(638, 240);
+            this.orderDetailsDataGridView.TabIndex = 1;
+            // 
+            // dgTotal
+            // 
+            this.dgTotal.HeaderText = "Total";
+            this.dgTotal.Name = "dgTotal";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(1030, 262);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(53, 13);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "SubTotal:";
+            // 
+            // txtBoxSubtotal
+            // 
+            this.txtBoxSubtotal.Location = new System.Drawing.Point(1090, 254);
+            this.txtBoxSubtotal.Name = "txtBoxSubtotal";
+            this.txtBoxSubtotal.ReadOnly = true;
+            this.txtBoxSubtotal.Size = new System.Drawing.Size(100, 20);
+            this.txtBoxSubtotal.TabIndex = 3;
+            // 
+            // btnEditShippedDate
+            // 
+            this.btnEditShippedDate.Enabled = false;
+            this.btnEditShippedDate.Location = new System.Drawing.Point(572, 296);
+            this.btnEditShippedDate.Name = "btnEditShippedDate";
+            this.btnEditShippedDate.Size = new System.Drawing.Size(111, 23);
+            this.btnEditShippedDate.TabIndex = 4;
+            this.btnEditShippedDate.Text = "EditShippedDate";
+            this.btnEditShippedDate.UseVisualStyleBackColor = true;
+            this.btnEditShippedDate.Click += new System.EventHandler(this.btnEditShippedDate_Click);
+            // 
+            // pnlShippedDate
+            // 
+            this.pnlShippedDate.Controls.Add(this.btnSave);
+            this.pnlShippedDate.Controls.Add(this.label2);
+            this.pnlShippedDate.Controls.Add(this.mtxtBoxShippedDate);
+            this.pnlShippedDate.Location = new System.Drawing.Point(572, 325);
+            this.pnlShippedDate.Name = "pnlShippedDate";
+            this.pnlShippedDate.Size = new System.Drawing.Size(111, 70);
+            this.pnlShippedDate.TabIndex = 5;
+            this.pnlShippedDate.Visible = false;
+            // 
+            // mtxtBoxShippedDate
+            // 
+            this.mtxtBoxShippedDate.Culture = new System.Globalization.CultureInfo("en-CA");
+            this.mtxtBoxShippedDate.Location = new System.Drawing.Point(2, 19);
+            this.mtxtBoxShippedDate.Mask = "00/00/0000";
+            this.mtxtBoxShippedDate.Name = "mtxtBoxShippedDate";
+            this.mtxtBoxShippedDate.Size = new System.Drawing.Size(100, 20);
+            this.mtxtBoxShippedDate.TabIndex = 0;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(3, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(100, 13);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "New Shipped Date:";
+            // 
+            // btnSave
+            // 
+            this.btnSave.Location = new System.Drawing.Point(6, 44);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(75, 23);
+            this.btnSave.TabIndex = 2;
+            this.btnSave.Text = "Save";
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
+            // dataGridViewTextBoxColumn6
+            // 
+            this.dataGridViewTextBoxColumn6.DataPropertyName = "OrderID";
+            this.dataGridViewTextBoxColumn6.HeaderText = "OrderID";
+            this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
+            // 
+            // dataGridViewTextBoxColumn7
+            // 
+            this.dataGridViewTextBoxColumn7.DataPropertyName = "ProductID";
+            this.dataGridViewTextBoxColumn7.HeaderText = "ProductID";
+            this.dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
+            // 
+            // dgDiscount
+            // 
+            this.dgDiscount.DataPropertyName = "Discount";
+            this.dgDiscount.HeaderText = "Discount";
+            this.dgDiscount.Name = "dgDiscount";
+            // 
+            // dgUnitPrice
+            // 
+            this.dgUnitPrice.DataPropertyName = "UnitPrice";
+            this.dgUnitPrice.HeaderText = "UnitPrice";
+            this.dgUnitPrice.Name = "dgUnitPrice";
+            // 
+            // dgQuantity
+            // 
+            this.dgQuantity.DataPropertyName = "Quantity";
+            this.dgQuantity.HeaderText = "Quantity";
+            this.dgQuantity.Name = "dgQuantity";
+            // 
+            // orderDetailsBindingSource
+            // 
+            this.orderDetailsBindingSource.DataSource = typeof(EntityClass.OrderDetails);
             // 
             // dataGridViewTextBoxColumn1
             // 
             this.dataGridViewTextBoxColumn1.DataPropertyName = "OrderID";
             this.dataGridViewTextBoxColumn1.HeaderText = "OrderID";
             this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
             // 
             // dataGridViewTextBoxColumn2
             // 
             this.dataGridViewTextBoxColumn2.DataPropertyName = "CustomerID";
             this.dataGridViewTextBoxColumn2.HeaderText = "CustomerID";
             this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this.dataGridViewTextBoxColumn2.ReadOnly = true;
             // 
             // dataGridViewTextBoxColumn3
             // 
@@ -102,6 +226,7 @@
             this.dataGridViewTextBoxColumn3.DefaultCellStyle = dataGridViewCellStyle7;
             this.dataGridViewTextBoxColumn3.HeaderText = "OrderDate";
             this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            this.dataGridViewTextBoxColumn3.ReadOnly = true;
             // 
             // dataGridViewTextBoxColumn4
             // 
@@ -111,6 +236,7 @@
             this.dataGridViewTextBoxColumn4.DefaultCellStyle = dataGridViewCellStyle8;
             this.dataGridViewTextBoxColumn4.HeaderText = "RequiredDate";
             this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            this.dataGridViewTextBoxColumn4.ReadOnly = true;
             // 
             // dataGridViewTextBoxColumn5
             // 
@@ -121,117 +247,30 @@
             this.dataGridViewTextBoxColumn5.HeaderText = "ShippedDate";
             this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
             // 
-            // orderDetailsBindingSource
+            // ordersBindingSource
             // 
-            this.orderDetailsBindingSource.DataSource = typeof(EntityClass.OrderDetails);
-            // 
-            // discountLabel
-            // 
-            discountLabel.AutoSize = true;
-            discountLabel.Location = new System.Drawing.Point(597, 41);
-            discountLabel.Name = "discountLabel";
-            discountLabel.Size = new System.Drawing.Size(52, 13);
-            discountLabel.TabIndex = 1;
-            discountLabel.Text = "Discount:";
-            // 
-            // discountTextBox
-            // 
-            this.discountTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.orderDetailsBindingSource, "Discount", true));
-            this.discountTextBox.Location = new System.Drawing.Point(664, 38);
-            this.discountTextBox.Name = "discountTextBox";
-            this.discountTextBox.Size = new System.Drawing.Size(100, 20);
-            this.discountTextBox.TabIndex = 2;
-            // 
-            // orderIDLabel
-            // 
-            orderIDLabel.AutoSize = true;
-            orderIDLabel.Location = new System.Drawing.Point(597, 67);
-            orderIDLabel.Name = "orderIDLabel";
-            orderIDLabel.Size = new System.Drawing.Size(50, 13);
-            orderIDLabel.TabIndex = 3;
-            orderIDLabel.Text = "Order ID:";
-            // 
-            // orderIDTextBox
-            // 
-            this.orderIDTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.orderDetailsBindingSource, "OrderID", true));
-            this.orderIDTextBox.Location = new System.Drawing.Point(664, 64);
-            this.orderIDTextBox.Name = "orderIDTextBox";
-            this.orderIDTextBox.Size = new System.Drawing.Size(100, 20);
-            this.orderIDTextBox.TabIndex = 4;
-            // 
-            // productIDLabel
-            // 
-            productIDLabel.AutoSize = true;
-            productIDLabel.Location = new System.Drawing.Point(597, 93);
-            productIDLabel.Name = "productIDLabel";
-            productIDLabel.Size = new System.Drawing.Size(61, 13);
-            productIDLabel.TabIndex = 5;
-            productIDLabel.Text = "Product ID:";
-            // 
-            // productIDTextBox
-            // 
-            this.productIDTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.orderDetailsBindingSource, "ProductID", true));
-            this.productIDTextBox.Location = new System.Drawing.Point(664, 90);
-            this.productIDTextBox.Name = "productIDTextBox";
-            this.productIDTextBox.Size = new System.Drawing.Size(100, 20);
-            this.productIDTextBox.TabIndex = 6;
-            // 
-            // quantityLabel
-            // 
-            quantityLabel.AutoSize = true;
-            quantityLabel.Location = new System.Drawing.Point(597, 119);
-            quantityLabel.Name = "quantityLabel";
-            quantityLabel.Size = new System.Drawing.Size(49, 13);
-            quantityLabel.TabIndex = 7;
-            quantityLabel.Text = "Quantity:";
-            // 
-            // quantityTextBox
-            // 
-            this.quantityTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.orderDetailsBindingSource, "Quantity", true));
-            this.quantityTextBox.Location = new System.Drawing.Point(664, 116);
-            this.quantityTextBox.Name = "quantityTextBox";
-            this.quantityTextBox.Size = new System.Drawing.Size(100, 20);
-            this.quantityTextBox.TabIndex = 8;
-            // 
-            // unitPriceLabel
-            // 
-            unitPriceLabel.AutoSize = true;
-            unitPriceLabel.Location = new System.Drawing.Point(597, 145);
-            unitPriceLabel.Name = "unitPriceLabel";
-            unitPriceLabel.Size = new System.Drawing.Size(56, 13);
-            unitPriceLabel.TabIndex = 9;
-            unitPriceLabel.Text = "Unit Price:";
-            // 
-            // unitPriceTextBox
-            // 
-            this.unitPriceTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.orderDetailsBindingSource, "UnitPrice", true));
-            this.unitPriceTextBox.Location = new System.Drawing.Point(664, 142);
-            this.unitPriceTextBox.Name = "unitPriceTextBox";
-            this.unitPriceTextBox.Size = new System.Drawing.Size(100, 20);
-            this.unitPriceTextBox.TabIndex = 10;
+            this.ordersBindingSource.DataSource = typeof(EntityClass.Orders);
             // 
             // OrderMngmtForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(822, 450);
-            this.Controls.Add(discountLabel);
-            this.Controls.Add(this.discountTextBox);
-            this.Controls.Add(orderIDLabel);
-            this.Controls.Add(this.orderIDTextBox);
-            this.Controls.Add(productIDLabel);
-            this.Controls.Add(this.productIDTextBox);
-            this.Controls.Add(quantityLabel);
-            this.Controls.Add(this.quantityTextBox);
-            this.Controls.Add(unitPriceLabel);
-            this.Controls.Add(this.unitPriceTextBox);
+            this.ClientSize = new System.Drawing.Size(1221, 509);
+            this.Controls.Add(this.pnlShippedDate);
+            this.Controls.Add(this.btnEditShippedDate);
+            this.Controls.Add(this.txtBoxSubtotal);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.orderDetailsDataGridView);
             this.Controls.Add(this.ordersDataGridView);
             this.Name = "OrderMngmtForm";
             this.Text = "Order Management";
             this.Load += new System.EventHandler(this.OrderMngmt_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.ordersBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ordersDataGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.orderDetailsDataGridView)).EndInit();
+            this.pnlShippedDate.ResumeLayout(false);
+            this.pnlShippedDate.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.orderDetailsBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ordersBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -241,17 +280,26 @@
 
         private System.Windows.Forms.BindingSource ordersBindingSource;
         private System.Windows.Forms.DataGridView ordersDataGridView;
+        private System.Windows.Forms.BindingSource orderDetailsBindingSource;
+        private System.Windows.Forms.DataGridView orderDetailsDataGridView;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgDiscount;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgUnitPrice;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgQuantity;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgTotal;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox txtBoxSubtotal;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
-        private System.Windows.Forms.BindingSource orderDetailsBindingSource;
-        private System.Windows.Forms.TextBox discountTextBox;
-        private System.Windows.Forms.TextBox orderIDTextBox;
-        private System.Windows.Forms.TextBox productIDTextBox;
-        private System.Windows.Forms.TextBox quantityTextBox;
-        private System.Windows.Forms.TextBox unitPriceTextBox;
+        private System.Windows.Forms.Button btnEditShippedDate;
+        private System.Windows.Forms.Panel pnlShippedDate;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.MaskedTextBox mtxtBoxShippedDate;
+        private System.Windows.Forms.Button btnSave;
     }
 }
 
