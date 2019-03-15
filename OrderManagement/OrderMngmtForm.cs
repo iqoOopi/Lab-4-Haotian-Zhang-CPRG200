@@ -115,7 +115,6 @@ namespace OrderManagement
             //Orders oldSelectedOrder = selectedOrder; This is horrible wrong, reference type!
             Orders oldSelectedOrder = new Orders(selectedOrder.OrderID, selectedOrder.CustomerID, selectedOrder.OrderDate, selectedOrder.RequiredDate, selectedOrder.ShippedDate);
             selectedOrder.ShippedDate = newShippedDate;
-            //Orders[selectedRowNumber] = selectedOrder;
             
 
             //commit to DB

@@ -10,8 +10,8 @@ using System.Threading.Tasks;
 namespace DBClass
 {
     /// <summary>
-    /// This the generic read and update method I created to use in WorkShop4,
-    /// This can take care any object from any DB
+    /// These are the generic read and update method I created to use in WorkShop4,
+    /// They can take care any object from any DB Table
     /// Sql command is just string, so the key idea is to use stringbuilder to build the
     /// required sql command during the run time.
     /// </summary>
@@ -119,7 +119,7 @@ namespace DBClass
                     PropertyInfo[] newObjProperties = newObj.GetType().GetProperties();//get all the field of this entity class
                                                                                        //if T is Products Class,
                                                                                        //properties will looks like {ProductID, prodName}
-                    //bound @new 
+                    //Bound @new 
                     newObjProperties = newObjProperties.Skip(1).ToArray();//skip the primary key, as we don't need to update
                     foreach (PropertyInfo property in newObjProperties)
                     {
