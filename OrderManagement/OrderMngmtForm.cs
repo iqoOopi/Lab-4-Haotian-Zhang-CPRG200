@@ -94,16 +94,20 @@ namespace OrderManagement
             
             DateTime? orderDate = selectedOrder.OrderDate;
             DateTime? requiredDate = selectedOrder.RequiredDate;
+            //validate newShipped Date with orderDate
             if (orderDate!=null && newShippedDate<orderDate)
             {
                 MessageBox.Show("Error! Shipped Date:"+newShippedDate.ToShortDateString()+" is ealier than OrderDate");
                 mtxtBoxShippedDate.Text = "";
+                mtxtBoxShippedDate.Select();
                 return;
             }
+            //Validate newShipped Date with requiredDate
             if (requiredDate!=null && newShippedDate > requiredDate)
             {
                 MessageBox.Show("Error! Shipped Date:"+newShippedDate.ToShortDateString()+" is later than Required Date");
                 mtxtBoxShippedDate.Text = "";
+                mtxtBoxShippedDate.Select();
                 return;
             }
 
@@ -117,6 +121,7 @@ namespace OrderManagement
             //commit to DB
             try
             {
+
                 if (GenericDB.GenericUpdate<Orders>("Orders", oldSelectedOrder, selectedOrder) != 1)
                 {
                     MessageBox.Show("Data changed while you are editing, Please refresh and try again!");
@@ -124,6 +129,8 @@ namespace OrderManagement
                 }
                 else
                 {
+                    //succeed,refresh Data
+
                     LoadData();
                 }
             }
