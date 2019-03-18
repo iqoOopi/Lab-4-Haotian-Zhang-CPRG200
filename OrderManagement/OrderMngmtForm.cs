@@ -82,34 +82,43 @@ namespace OrderManagement
 
         private void btnSave_Click(object sender, EventArgs e)
         {
+            DateTime? newShippedDate;
+            DateTime notNullShippedDate;//notNull Date used in not null situation
             
-            DateTime newShippedDate;//new DateTime about to update
-            if (!DateTime.TryParse(mtxtBoxShippedDate.Text, out newShippedDate))
+            if (mtxtBoxShippedDate.Text=="  -  -")//empty input for masked textbox
             {
-               //not valid input
-                MessageBox.Show("Invalid Input, please input MM/DD/YYYY");
-                mtxtBoxShippedDate.Text = "";
-                return;
+                newShippedDate = null;
+            }
+            else //user inputted Date in maskedbox
+            {
+                if (!DateTime.TryParse(mtxtBoxShippedDate.Text, out notNullShippedDate))
+                {
+                    //not valid input
+                    MessageBox.Show(mtxtBoxShippedDate.Text+"Invalid Input, please input MM/DD/YYYY");
+                    mtxtBoxShippedDate.Text = "";
+                    return;
+                }
+                newShippedDate = notNullShippedDate;
+                DateTime? orderDate = selectedOrder.OrderDate;
+                DateTime? requiredDate = selectedOrder.RequiredDate;
+                //validate newShipped Date with orderDate
+                if (orderDate != null && newShippedDate < orderDate)
+                {
+                    MessageBox.Show("Error! Shipped Date:" + notNullShippedDate.ToShortDateString() + " is ealier than OrderDate");
+                    mtxtBoxShippedDate.Text = "";
+                    mtxtBoxShippedDate.Select();
+                    return;
+                }
+                //Validate newShipped Date with requiredDate
+                if (requiredDate != null && newShippedDate > requiredDate)
+                {
+                    MessageBox.Show("Error! Shipped Date:" + notNullShippedDate.ToShortDateString() + " is later than Required Date");
+                    mtxtBoxShippedDate.Text = "";
+                    mtxtBoxShippedDate.Select();
+                    return;
+                }
             }
             
-            DateTime? orderDate = selectedOrder.OrderDate;
-            DateTime? requiredDate = selectedOrder.RequiredDate;
-            //validate newShipped Date with orderDate
-            if (orderDate!=null && newShippedDate<orderDate)
-            {
-                MessageBox.Show("Error! Shipped Date:"+newShippedDate.ToShortDateString()+" is ealier than OrderDate");
-                mtxtBoxShippedDate.Text = "";
-                mtxtBoxShippedDate.Select();
-                return;
-            }
-            //Validate newShipped Date with requiredDate
-            if (requiredDate!=null && newShippedDate > requiredDate)
-            {
-                MessageBox.Show("Error! Shipped Date:"+newShippedDate.ToShortDateString()+" is later than Required Date");
-                mtxtBoxShippedDate.Text = "";
-                mtxtBoxShippedDate.Select();
-                return;
-            }
 
             //good date
             //Orders oldSelectedOrder = selectedOrder; This is horrible wrong, reference type!
